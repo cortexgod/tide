@@ -755,7 +755,7 @@ input,textarea{font-family:inherit;outline:none}
           <button class="srow-btn" id="do-import2"><span class="st" data-i18n="importT">Импорт записей</span><span class="chev">›</span></button>
         </div>
       </div>
-      <div class="ver">Tide · версия 1.1</div>
+      <div class="ver">Tide · версия 1.2</div>
     </div>
   </section>
 
@@ -828,8 +828,11 @@ input,textarea{font-family:inherit;outline:none}
 
 /* ---------- Данные ---------- */
 const KEY='tihiy_dnevnik_v1';
-const BUILT_IN_KEY='AQ.Ab8RN6LbF6stDmum_8VldekRQj9VP99vrzUwjwQwGA40gPHffw'; // общий ключ приложения (Gemini)
-function apiKey(){ return (S.settings.apiKey||BUILT_IN_KEY).trim(); }
+const PROXY_URL='https://tide.venya-tide.workers.dev';   // прокси: ключ живёт в секретах Cloudflare
+const BUILT_IN_KEY=''; // ключа в клиенте больше нет — всё ходит через прокси
+function apiBase(){ return PROXY_URL||'https://generativelanguage.googleapis.com'; }
+function apiHeaders(){ const h={'Content-Type':'application/json'}; if(!PROXY_URL) h['x-goog-api-key']=apiKey(); return h; }
+function apiKey(){ return PROXY_URL?'proxy':(S.settings.apiKey||BUILT_IN_KEY).trim(); }
 const defaults={
   name:'', startedAt:null, onboarded:false,
   settings:{remind:true, autoTheme:true, manual:'day', sound:true, vibro:true, bio:false,
@@ -917,7 +920,7 @@ const PACK_RU={
  clearQ:'Начать новый разговор?',clearP:'Текущая переписка исчезнет. Записи и память Tide останутся.',clearYes:'Начать заново',keep:'Оставить',
  delQ:'Удалить запись?',delP:'Это действие нельзя отменить. Запись исчезнет из ленты и календаря.',delYes:'Удалить',
  monAhead:'Этот месяц ещё впереди.',monBlank:'Этот месяц — пока чистый лист. ',monStart:'Начать с вопроса дня →',monGone:'В этом месяце записей не осталось.',noteFilled:'{f} из {t} дней записано. Этот месяц чаще всего был <i>{m}</i>.',inARow:'подряд',more:'чаще ',emptyDay:'Этот день остался без слов',
- profileCap:'ПРОФИЛЬ',settings:'Настройки',rhythm:'Ритм',remindT:'Напоминание вести дневник',remindS:'мягко, каждый вечер',autoT:'Тема по времени суток',autoS:'день сменяется ночью сам',themeT:'Тема',segDay:'☀ День',segNight:'☾ Ночь',langT:'Язык',companion:'Дневник-собеседник',memT:'Память Tide',memP:'Tide тихо запоминает важное из записей и разговоров, связывает по смыслу и складывает в портрет.',memEmpty:'Портрет соберётся сам — из записей и разговоров.',memNone:'пока пусто',forgetAll:'Забыть всё',forgot:'Tide всё забыл',senses:'Ощущения',soundT:'Тихие звуки при письме',vibroT:'Мягкая вибрация',privacy:'Приватность',bioT:'Face ID для входа',bioS:'биометрия устройства',bioNA:'недоступно в этом браузере',bioNo:'Биометрия недоступна в этом браузере',bioOk:'Face ID подключён ✓',bioFail:'Не получилось подключить биометрию',exportT:'Экспорт записей',importT:'Импорт записей',expP:'Резервная копия остаётся только у тебя. JSON — для восстановления дневника, текст — чтобы просто читать.',expJson:'Скачать резервную копию (JSON)',expTxt:'Скачать как текст',close:'Закрыть',cancel:'Отмена',saveWord:'Сохранить',jsonDone:'Резервная копия скачана ✓',txtDone:'Текст скачан ✓',restored:'Дневник восстановлен ✓',badFile:'Не получилось прочитать файл',inDiary:'в дневнике с {d} · {n}',ver:'Tide · версия 1.1',easter:'Сделано в тишине — для тебя, {n}',easterAnon:'Сделано в тишине',lockT:'Дневник закрыт.<br>Это твоё тихое место.',unlock:'Войти',
+ profileCap:'ПРОФИЛЬ',settings:'Настройки',rhythm:'Ритм',remindT:'Напоминание вести дневник',remindS:'мягко, каждый вечер',autoT:'Тема по времени суток',autoS:'день сменяется ночью сам',themeT:'Тема',segDay:'☀ День',segNight:'☾ Ночь',langT:'Язык',companion:'Дневник-собеседник',memT:'Память Tide',memP:'Tide тихо запоминает важное из записей и разговоров, связывает по смыслу и складывает в портрет.',memEmpty:'Портрет соберётся сам — из записей и разговоров.',memNone:'пока пусто',forgetAll:'Забыть всё',forgot:'Tide всё забыл',senses:'Ощущения',soundT:'Тихие звуки при письме',vibroT:'Мягкая вибрация',privacy:'Приватность',bioT:'Face ID для входа',bioS:'биометрия устройства',bioNA:'недоступно в этом браузере',bioNo:'Биометрия недоступна в этом браузере',bioOk:'Face ID подключён ✓',bioFail:'Не получилось подключить биометрию',exportT:'Экспорт записей',importT:'Импорт записей',expP:'Резервная копия остаётся только у тебя. JSON — для восстановления дневника, текст — чтобы просто читать.',expJson:'Скачать резервную копию (JSON)',expTxt:'Скачать как текст',close:'Закрыть',cancel:'Отмена',saveWord:'Сохранить',jsonDone:'Резервная копия скачана ✓',txtDone:'Текст скачан ✓',restored:'Дневник восстановлен ✓',badFile:'Не получилось прочитать файл',inDiary:'в дневнике с {d} · {n}',ver:'Tide · версия 1.2',easter:'Сделано в тишине — для тебя, {n}',easterAnon:'Сделано в тишине',lockT:'Дневник закрыт.<br>Это твоё тихое место.',unlock:'Войти',
  pageIs:'Твоя {n}-я страница ✓',pageWill:'Это будет твоя {n}-я страница',streak:'· {n} {w} подряд',convLbl:'разговор ',fromEntry:'из записи {d} ({m}): ',fromConv:'из разговора {d} ({m}): ',
  m0:'Спокойно',m1:'Живо',m2:'Радость',m3:'Грусть',m4:'Тревога',grFar:'Доброй ночи,',grMorn:'Доброе утро,',grDay:'Добрый день,',grEve:'Добрый вечер,'}
 };
@@ -935,7 +938,7 @@ const PACK_EN={
  hintsQ:['Start with one word…','One sentence is already an entry…','Write the way you think…','Don’t polish it — just write…'],
  hintsF:['Write freely…','What’s on your mind?..','Start from the middle of a thought…','Anything goes here…'],
  heavy:[
-  ['heavy|awful|terrible|feel bad|miserable|weigh',['That happens. Don’t polish the words — just dump it as it is.','I get it. Is it about something specific, or did it all just pile up?','Okay, no hero mode. What do you need more right now — to sort it out or just company?']],
+  ['heavy|awful|terrible|feel bad|(^|[\\s,])bad|miserable|weigh',['That happens. Don’t polish the words — just dump it as it is.','I get it. Is it about something specific, or did it all just pile up?','Okay, no hero mode. What do you need more right now — to sort it out or just company?']],
   ['tired|exhaust|drained|burn|no energy|worn',['Sounds like battery at zero. What ate most of it today?','Hold on — when did you last properly rest? Not “phone on the couch”, actually rest?']],
   ['anxious|afraid|scared|worr|panic|nervous',['Anxiety loves worst-case scripts. What’s the most realistic one, honestly?','Got it. If you catch that worry by the tail — what’s it actually about?','Breathe. What part is already happening, and what lives only in your head?']],
   ['sad|lonely|empty|feel down|cry|miss ',['Being sad is okay, don’t chase it away. What’s it about?','Evenings make everything louder, I know. What would warm you even a little?','Loneliness is loud. Who or what usually makes it quieter?']],
@@ -966,7 +969,7 @@ const PACK_EN={
  clearQ:'Start a new conversation?',clearP:'This chat will disappear. Entries and Tide’s memory stay.',clearYes:'Start over',keep:'Keep it',
  delQ:'Delete this entry?',delP:'This can’t be undone. The entry will vanish from the feed and calendar.',delYes:'Delete',
  monAhead:'This month is still ahead.',monBlank:'This month is a blank page so far. ',monStart:'Start with the question of the day →',monGone:'No entries left in this month.',noteFilled:'{f} of {t} days written. This month was mostly <i>{m}</i>.',inARow:'in a row',more:'mostly ',emptyDay:'This day was left without words',
- profileCap:'PROFILE',settings:'Settings',rhythm:'Rhythm',remindT:'Evening reminder',remindS:'gently, every evening',autoT:'Theme follows the time of day',autoS:'day turns to night by itself',themeT:'Theme',segDay:'☀ Day',segNight:'☾ Night',langT:'Language',companion:'Companion',memT:'Tide’s memory',memP:'Tide quietly remembers what matters from entries and talks, links it by meaning and builds a portrait.',memEmpty:'The portrait will build itself — from entries and talks.',memNone:'empty so far',forgetAll:'Forget everything',forgot:'Tide forgot everything',senses:'Senses',soundT:'Quiet sounds while writing',vibroT:'Soft haptics',privacy:'Privacy',bioT:'Face ID to enter',bioS:'device biometrics',bioNA:'not available in this browser',bioNo:'Biometrics unavailable in this browser',bioOk:'Face ID connected ✓',bioFail:'Couldn’t set up biometrics',exportT:'Export entries',importT:'Import entries',expP:'The backup stays only with you. JSON restores the journal, text is just for reading.',expJson:'Download backup (JSON)',expTxt:'Download as text',close:'Close',cancel:'Cancel',saveWord:'Save',jsonDone:'Backup downloaded ✓',txtDone:'Text downloaded ✓',restored:'Journal restored ✓',badFile:'Couldn’t read that file',inDiary:'journaling since {d} · {n}',ver:'Tide · version 1.1',easter:'Made in the quiet — for you, {n}',easterAnon:'Made in the quiet',lockT:'The journal is closed.<br>This is your quiet place.',unlock:'Enter',
+ profileCap:'PROFILE',settings:'Settings',rhythm:'Rhythm',remindT:'Evening reminder',remindS:'gently, every evening',autoT:'Theme follows the time of day',autoS:'day turns to night by itself',themeT:'Theme',segDay:'☀ Day',segNight:'☾ Night',langT:'Language',companion:'Companion',memT:'Tide’s memory',memP:'Tide quietly remembers what matters from entries and talks, links it by meaning and builds a portrait.',memEmpty:'The portrait will build itself — from entries and talks.',memNone:'empty so far',forgetAll:'Forget everything',forgot:'Tide forgot everything',senses:'Senses',soundT:'Quiet sounds while writing',vibroT:'Soft haptics',privacy:'Privacy',bioT:'Face ID to enter',bioS:'device biometrics',bioNA:'not available in this browser',bioNo:'Biometrics unavailable in this browser',bioOk:'Face ID connected ✓',bioFail:'Couldn’t set up biometrics',exportT:'Export entries',importT:'Import entries',expP:'The backup stays only with you. JSON restores the journal, text is just for reading.',expJson:'Download backup (JSON)',expTxt:'Download as text',close:'Close',cancel:'Cancel',saveWord:'Save',jsonDone:'Backup downloaded ✓',txtDone:'Text downloaded ✓',restored:'Journal restored ✓',badFile:'Couldn’t read that file',inDiary:'journaling since {d} · {n}',ver:'Tide · version 1.2',easter:'Made in the quiet — for you, {n}',easterAnon:'Made in the quiet',lockT:'The journal is closed.<br>This is your quiet place.',unlock:'Enter',
  pageIs:'Your page no. {n} ✓',pageWill:'This will be your page no. {n}',streak:'· {n} {w} in a row',convLbl:'talk ',fromEntry:'from an entry, {d} ({m}): ',fromConv:'from a talk, {d} ({m}): ',
  m0:'Calm',m1:'Alive',m2:'Joy',m3:'Sad',m4:'Anxious',grFar:'Good night,',grMorn:'Good morning,',grDay:'Good afternoon,',grEve:'Good evening,'}
 };
@@ -1455,12 +1458,14 @@ async function respond(my){
   const t0=Date.now();
   let reply=null;
   if(apiKey()){ reply=await aiReply().catch(()=>null); }
+  const usedLocal=!reply;
   if(!reply) reply=localReply(trailingUserText());
+  $('#chat-sub').textContent=T('todayCap')+' · '+nowTime()+(usedLocal?(LNG()==='en'?' · offline':' · офлайн'):'');
   if(my!==gen){ chatBusy=false; renderChat(); return; }
   const think=Math.max(0, 600+Math.random()*500-(Date.now()-t0));
   await new Promise(r=>setTimeout(r,think));
   if(my!==gen){ chatBusy=false; renderChat(); return; }
-  const parts=String(reply).split('||').map(s=>s.trim()).filter(Boolean).slice(0,3);
+  const parts=String(reply).split(/\|\||\n+/).map(s=>s.trim()).filter(Boolean).slice(0,3);
   for(let k=0;k<parts.length;k++){
     if(my!==gen) break;
     chatBusy=false;
@@ -1486,7 +1491,7 @@ $('#chat-in').addEventListener('keydown',e=>{ if(e.key==='Enter') sendChat(); })
 
 /* Локальный собеседник (без ключа) — лёгкий развиватель мыслей */
 let HEAVY=[
-  ['тяжел|тяжко|плохо мне|мне плохо|невыносим|груз на душе',[
+  ['тяжел|тяжко|плохо мне|мне плохо|(^|[\\s,])плохо|хреново|паршиво|невыносим|груз на душе',[
    'Бывает такое. Не подбирай слова — просто вывали как есть, я разберусь.',
    'обнял||рассказывай, я тут',
    'Понимаю. А это тяжёлое — оно про что-то конкретное, или просто всё разом навалилось?',
@@ -1562,18 +1567,23 @@ function pickReply(list,seed){
   return list[seed%list.length];
 }
 function localReply(text){
+  // язык ответа = язык сообщения, а не интерфейса
+  const isRu=/[а-яё]/i.test(text);
+  const P=isRu
+    ? {H:(RU_BASE.saved?RU_BASE.HEAVY:HEAVY),L:(RU_BASE.saved?RU_BASE.LIGHT:LIGHT),G:(RU_BASE.saved?RU_BASE.GENERIC:GENERIC),S:(RU_BASE.saved?RU_BASE.SN:SHORT_NUDGE)}
+    : {H:PACK_EN.heavy,L:PACK_EN.light,G:PACK_EN.generic,S:PACK_EN.shortN};
   const low=text.toLowerCase();
   const seed=hashStr(text)+chatLog().length;
-  for(const [re,answers] of HEAVY){
+  for(const [re,answers] of P.H){
     if(new RegExp(re).test(low)) return lastReply=pickReply(answers,seed);
   }
-  for(const [re,answers] of LIGHT){
+  for(const [re,answers] of P.L){
     if(new RegExp(re).test(low)) return lastReply=pickReply(answers,seed);
   }
-  if(text.trim().split(/\s+/).length<=4) return lastReply=pickReply(SHORT_NUDGE,seed);
-  genIdx=(genIdx+1)%GENERIC.length;
-  if(GENERIC[genIdx]===lastReply) genIdx=(genIdx+1)%GENERIC.length;
-  return lastReply=GENERIC[genIdx];
+  if(text.trim().split(/\s+/).length<=4) return lastReply=pickReply(P.S,seed);
+  genIdx=(genIdx+1)%P.G.length;
+  if(P.G[genIdx]===lastReply) genIdx=(genIdx+1)%P.G.length;
+  return lastReply=P.G[genIdx];
 }
 let genIdx=hashStr(iso(new Date()))%GENERIC.length;
 
@@ -1587,8 +1597,8 @@ async function gemini(contents,sys){
   for(const ver of ['v1beta','v1']){
     for(const m of models){
       try{
-        const r=await fetch('https://generativelanguage.googleapis.com/'+ver+'/models/'+m+':generateContent',{
-          method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},
+        const r=await fetch(apiBase()+'/'+ver+'/models/'+m+':generateContent',{
+          method:'POST',headers:apiHeaders(),
           body:JSON.stringify({
             system_instruction:{parts:[{text:sys||SYS}]},
             contents,
@@ -1716,8 +1726,8 @@ async function embed(texts){
   let lastErr;
   for(const m of EMB_MODELS){
     try{
-      const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+m+':batchEmbedContents',{
-        method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},
+      const r=await fetch(apiBase()+'/v1beta/models/'+m+':batchEmbedContents',{
+        method:'POST',headers:apiHeaders(),
         body:JSON.stringify({requests:texts.map(t=>({model:'models/'+m,content:{parts:[{text:String(t).slice(0,1500)}]},outputDimensionality:256}))})
       });
       if(!r.ok){ lastErr=new Error('emb '+r.status); if(r.status===404) continue; throw lastErr; }
